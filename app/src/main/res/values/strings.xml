@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Netwix_Multimedia</string>
+
+    <string-array name="profiles_array">
+        <item>Infantil</item>
+        <item>Adolescente</item>
+        <item>Adulto</item>
+    </string-array>
+
+    <!-- Películas para el perfil Infantil -->
+    <string-array name="movies_infantil">
+        <item>Frozen</item>
+        <item>Barbie</item>
+        <item>Paw Patrol</item>
+    </string-array>
+
+    <!-- Películas para el perfil Adolescente -->
+    <string-array name="movies_adolescente">
+        <item>Dragon Ball</item>
+        <item>Godzilla</item>
+        <item>John Wick</item>
+    </string-array>
+
+    <!-- Películas para el perfil Adulto -->
+    <string-array name="movies_adulto">
+        <item>El Despertar</item>
+        <item>Oppenheimer</item>
+        <item>Terrifier</item>
+    </string-array>
+</resources>
