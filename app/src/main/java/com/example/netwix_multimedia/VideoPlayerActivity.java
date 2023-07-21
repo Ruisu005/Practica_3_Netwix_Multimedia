@@ -22,7 +22,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String selectedMovie = extras.getString("selectedMovie");
-            int videoResource = getVideoResource(selectedMovie);
+            int videoResource = ObtenerVideos(selectedMovie);
             if (videoResource != 0) {
                 Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + videoResource);
 
@@ -54,7 +54,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         videoView.stopPlayback();
     }
 
-    private int getVideoResource(String selectedMovie) {
+    private int ObtenerVideos(String selectedMovie) {
         switch (selectedMovie) {
             case "Frozen":
                 return R.raw.frozen_video;

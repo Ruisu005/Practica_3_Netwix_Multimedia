@@ -28,7 +28,7 @@ public class MovieListActivity extends AppCompatActivity {
             String[] movies = getResources().getStringArray(moviesResourceId);
 
             // Obtener los recursos de las carátulas para cada película
-            int[] movieCovers = getMovieCovers(profile);
+            int[] movieCovers = getCaratulas(profile);
 
             // Mostrar las películas en el ListView
             ListView listViewMovies = findViewById(R.id.listViewMovies);
@@ -39,13 +39,13 @@ public class MovieListActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String selectedMovie = (String) parent.getItemAtPosition(position);
-                    openVideoPlayerActivity(selectedMovie);
+                    AbrirVideos(selectedMovie);
                 }
             });
         }
     }
 
-    private int[] getMovieCovers(String profile) {
+    private int[] getCaratulas(String profile) {
         int[] movieCovers;
         switch (profile) {
             case "Infantil":
@@ -75,7 +75,7 @@ public class MovieListActivity extends AppCompatActivity {
         }
         return movieCovers;
     }
-    private void openVideoPlayerActivity(String selectedMovie) {
+    private void AbrirVideos(String selectedMovie) {
         Intent intent = new Intent(this, VideoPlayerActivity.class);
         intent.putExtra("selectedMovie", selectedMovie);
         startActivity(intent);

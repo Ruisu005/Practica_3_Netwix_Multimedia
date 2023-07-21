@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         buttonAddUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddUserDialog();
+                MostrarDialogo();
             }
         });
 
@@ -57,20 +57,20 @@ public class MainActivity extends AppCompatActivity {
                 if (userDetails.length == 2) {
                     String username = userDetails[0];
                     String profile = userDetails[1];
-                    openMovieListActivity(username, profile);
+                    AbriListaPelis(username, profile);
                 }
             }
         });
     }
 
-    private void openMovieListActivity(String username, String profile) {
+    private void AbriListaPelis(String username, String profile) {
         Intent intent = new Intent(this, MovieListActivity.class);
         intent.putExtra("username", username);
         intent.putExtra("profile", profile);
         startActivity(intent);
     }
 
-    private void showAddUserDialog() {
+    private void MostrarDialogo() {
         // Inflar el layout del cuadro de diálogo personalizado
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_add_user, null);
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialogView)
                 .setTitle("Agregar Usuario")
-                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String username = editTextUsernameDialog.getText().toString().trim();
