@@ -1,0 +1,118 @@
+Index: app/src/main/java/com/example/netwix_multimedia/MovieListActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/netwix_multimedia/MovieListActivity.java b/app/src/main/java/com/example/netwix_multimedia/MovieListActivity.java
+--- a/app/src/main/java/com/example/netwix_multimedia/MovieListActivity.java	(revision 6d49f80ce4ef287539ffe16e33fe2b97b195fd71)
++++ b/app/src/main/java/com/example/netwix_multimedia/MovieListActivity.java	(date 1689977687709)
+@@ -28,7 +28,7 @@
+             String[] movies = getResources().getStringArray(moviesResourceId);
+ 
+             // Obtener los recursos de las carátulas para cada película
+-            int[] movieCovers = getMovieCovers(profile);
++            int[] movieCovers = getCaratulas(profile);
+ 
+             // Mostrar las películas en el ListView
+             ListView listViewMovies = findViewById(R.id.listViewMovies);
+@@ -39,13 +39,13 @@
+                 @Override
+                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                     String selectedMovie = (String) parent.getItemAtPosition(position);
+-                    openVideoPlayerActivity(selectedMovie);
++                    AbrirVideos(selectedMovie);
+                 }
+             });
+         }
+     }
+ 
+-    private int[] getMovieCovers(String profile) {
++    private int[] getCaratulas(String profile) {
+         int[] movieCovers;
+         switch (profile) {
+             case "Infantil":
+@@ -75,7 +75,7 @@
+         }
+         return movieCovers;
+     }
+-    private void openVideoPlayerActivity(String selectedMovie) {
++    private void AbrirVideos(String selectedMovie) {
+         Intent intent = new Intent(this, VideoPlayerActivity.class);
+         intent.putExtra("selectedMovie", selectedMovie);
+         startActivity(intent);
+Index: app/src/main/java/com/example/netwix_multimedia/VideoPlayerActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/netwix_multimedia/VideoPlayerActivity.java b/app/src/main/java/com/example/netwix_multimedia/VideoPlayerActivity.java
+--- a/app/src/main/java/com/example/netwix_multimedia/VideoPlayerActivity.java	(revision 6d49f80ce4ef287539ffe16e33fe2b97b195fd71)
++++ b/app/src/main/java/com/example/netwix_multimedia/VideoPlayerActivity.java	(date 1689977687728)
+@@ -22,7 +22,7 @@
+         Bundle extras = getIntent().getExtras();
+         if (extras != null) {
+             String selectedMovie = extras.getString("selectedMovie");
+-            int videoResource = getVideoResource(selectedMovie);
++            int videoResource = ObtenerVideos(selectedMovie);
+             if (videoResource != 0) {
+                 Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + videoResource);
+ 
+@@ -54,7 +54,7 @@
+         videoView.stopPlayback();
+     }
+ 
+-    private int getVideoResource(String selectedMovie) {
++    private int ObtenerVideos(String selectedMovie) {
+         switch (selectedMovie) {
+             case "Frozen":
+                 return R.raw.frozen_video;
+Index: app/src/main/java/com/example/netwix_multimedia/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/netwix_multimedia/MainActivity.java b/app/src/main/java/com/example/netwix_multimedia/MainActivity.java
+--- a/app/src/main/java/com/example/netwix_multimedia/MainActivity.java	(revision 6d49f80ce4ef287539ffe16e33fe2b97b195fd71)
++++ b/app/src/main/java/com/example/netwix_multimedia/MainActivity.java	(date 1689977687720)
+@@ -45,7 +45,7 @@
+         buttonAddUser.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+-                showAddUserDialog();
++                MostrarDialogo();
+             }
+         });
+ 
+@@ -57,20 +57,20 @@
+                 if (userDetails.length == 2) {
+                     String username = userDetails[0];
+                     String profile = userDetails[1];
+-                    openMovieListActivity(username, profile);
++                    AbriListaPelis(username, profile);
+                 }
+             }
+         });
+     }
+ 
+-    private void openMovieListActivity(String username, String profile) {
++    private void AbriListaPelis(String username, String profile) {
+         Intent intent = new Intent(this, MovieListActivity.class);
+         intent.putExtra("username", username);
+         intent.putExtra("profile", profile);
+         startActivity(intent);
+     }
+ 
+-    private void showAddUserDialog() {
++    private void MostrarDialogo() {
+         // Inflar el layout del cuadro de diálogo personalizado
+         LayoutInflater inflater = getLayoutInflater();
+         View dialogView = inflater.inflate(R.layout.dialog_add_user, null);
+@@ -89,7 +89,7 @@
+         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+         builder.setView(dialogView)
+                 .setTitle("Agregar Usuario")
+-                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
++                .setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                         String username = editTextUsernameDialog.getText().toString().trim();
