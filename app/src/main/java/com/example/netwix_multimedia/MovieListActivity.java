@@ -3,12 +3,17 @@ package com.example.netwix_multimedia;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class MovieListActivity extends AppCompatActivity {
+
+    private MediaPlayer mediaPlayer;
+    private boolean isPlaying = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +24,20 @@ public class MovieListActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String profile = extras.getString("profile");
+
+            // Reproducir la canción correspondiente según la categoría del perfil
+            playProfileSong(profile);
+
+            // Obtener una referencia al botón de pausa/reanudar
+            Button btnPauseResume = findViewById(R.id.btnPauseResume);
+
+            // Acción al hacer clic en el botón de pausa/reanudar
+            btnPauseResume.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    togglePauseResume();
+                }
+            });
 
             // Mostrar el título de la actividad con el perfil seleccionado
             setTitle(profile);
@@ -99,4 +118,79 @@ public class MovieListActivity extends AppCompatActivity {
         }
         return resourceId;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Reanudar la reproducción de la canción al volver a la actividad
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Pausar la reproducción de la canción cuando la actividad está en segundo plano
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Detener la reproducción de la canción y liberar recursos cuando la actividad se destruye
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
+    private void playProfileSong(String profile) {
+        int songResource;
+        switch (profile) {
+            case "Infantil":
+                songResource = R.raw.frozen_song;
+                break;
+            case "Adolescente":
+                songResource = R.raw.dragon_ball_song;
+                break;
+            case "Adulto":
+                songResource = R.raw.alicia_song;
+                break;
+            default:
+                songResource = -1;
+                break;
+        }
+
+        if (songResource != -1) {
+            mediaPlayer = MediaPlayer.create(this, songResource);
+            mediaPlayer.setLooping(true); // Reproducir en bucle
+            mediaPlayer.start();
+        }
+    }
+
+    private void togglePauseResume() {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            isPlaying = false;
+            updatePauseResumeButton();
+        } else if (mediaPlayer != null) {
+            mediaPlayer.start();
+            isPlaying = true;
+            updatePauseResumeButton();
+        }
+    }
+
+    private void updatePauseResumeButton() {
+        Button btnPauseResume = findViewById(R.id.btnPauseResume);
+        if (isPlaying) {
+            btnPauseResume.setText("Pausar");
+        } else {
+            btnPauseResume.setText("Reanudar");
+        }
+    }
+
 }
