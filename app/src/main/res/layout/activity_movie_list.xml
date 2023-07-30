@@ -8,9 +8,18 @@
     android:padding="16dp"
     tools:context=".MovieListActivity">
 
+    <Button
+        android:id="@+id/btnPauseResume"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@drawable/reproducir"
+        android:padding="20dp" />
+
     <ListView
         android:id="@+id/listViewMovies"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="20dp"/>
 
 </LinearLayout>
